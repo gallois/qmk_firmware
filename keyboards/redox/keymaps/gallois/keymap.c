@@ -30,6 +30,14 @@ enum custom_keycodes {
 #define KC_TFNN TG(_FN_NAV)
 #define KC_TSYM TG(_SYM)
 #define KC_TMM  TG(_MOUSE_MEDIA)
+#define KC_ASL  LALT(LSFT(KC_LEFT))
+#define KC_ASD  LALT(LSFT(KC_DOWN))
+#define KC_ASU  LALT(LSFT(KC_UP))
+#define KC_ASR  LALT(LSFT(KC_RGHT))
+#define KC_SFTL LSFT(KC_LEFT)
+#define KC_SFTD LSFT(KC_DOWN)
+#define KC_SFTU LSFT(KC_UP)
+#define KC_SFTR LSFT(KC_RGHT)
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
@@ -86,11 +94,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_NO   ,KC_F1   ,KC_F2   ,KC_F3   ,KC_F4   ,KC_F5   ,                                            KC_F6   ,KC_F7   ,KC_F8   ,KC_F9   ,KC_F10  ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_NO   ,KC_NO   ,KC_UP   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_F11  ,                          KC_F12  ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+     KC_NO   ,KC_NO   ,KC_UP   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_F11  ,                          KC_F12  ,KC_ASL  ,KC_ASD  ,KC_ASU  ,KC_ASR  ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TRNS ,KC_LEFT ,KC_DOWN ,KC_RGHT ,KC_NO   ,KC_NO   ,KC_HOME ,                          KC_END  ,KC_LEFT ,KC_DOWN ,KC_UP   ,KC_RGHT ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_TRNS ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_TRNS ,KC_TRNS ,        KC_TRNS ,KC_TRNS ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_TRNS ,
+     KC_TRNS ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_TRNS ,KC_TRNS ,        KC_TRNS ,KC_TRNS ,KC_SFTL ,KC_SFTD ,KC_SFTU ,KC_SFTR ,KC_NO   ,KC_TRNS ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      KC_TRNS ,KC_NO   ,KC_NO   ,KC_TRNS ,     KC_TRNS ,    KC_NO   ,KC_NO   ,        KC_NO   ,KC_NO   ,    KC_TRNS ,     KC_TRNS ,KC_NO   ,KC_NO   ,KC_TRNS
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
