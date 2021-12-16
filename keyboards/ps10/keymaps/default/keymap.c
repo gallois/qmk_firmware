@@ -14,13 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
-// #include "print.h"
 
 #define _BASE 0
 #define _KEYPAD 1
 #define _LOGIC 2
 #define _ARROWS 3
 #define _MEMES 4
+#define _VC 5
 
 #define KC_QUAK LGUI(LALT(KC_BSLS))
 #define VC_MUTE LALT(KC_M)
@@ -37,17 +37,19 @@ enum custom_keycodes {
 };
 
 int DEFAULT_SAT = 0xFF;
-int DEFAULT_VAL = 0x10;
+int DEFAULT_VAL = 0x20;
 
 int BASE_COLOUR = 0;
 int KEYPAD_COLOUR = 180;
 int LOGIC_COLOUR = 127;
 int ARROWS_COLOUR = 64;
+int VC_COLOUR = 10;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     int val = rgblight_get_val();
 
     switch (keycode) {
+        // memes
         case SHRUG:
             if (record->event.pressed) {
               if (get_mods() & MOD_MASK_CSA) {
@@ -119,10 +121,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case STALK:
             if (record->event.pressed) {
-              tap_code(KC_F17);
-              wait_ms(100);
-              send_unicode_string("┬┴┬┴┤(･_├┬┴┬┴");
-              tap_code(KC_F17);
+                if (get_mods() & MOD_MASK_CSA) {
+                    layer_move(_VC);
+                    rgblight_mode(RGBLIGHT_MODE_STATIC_LIGHT);
+                    rgblight_sethsv(VC_COLOUR, DEFAULT_SAT, val);
+                } else {
+
+                    tap_code(KC_F17);
+                    wait_ms(100);
+                    send_unicode_string("┬┴┬┴┤(･_├┬┴┬┴");
+                    tap_code(KC_F17);
+                }
             }
             return false;
             break;
@@ -135,6 +144,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
+        case KC_QUAK:
+          if ((get_mods() & MOD_MASK_CSA) && record->event.pressed) {
+            layer_move(_BASE);
+            rgblight_sethsv(BASE_COLOUR, DEFAULT_SAT, val);
+            return false;
+          }
+          return true;
+        // VC shortcuts
         case VC_MUTE:
           if ((get_mods() & MOD_MASK_CSA) && record->event.pressed) {
             layer_move(_KEYPAD);
@@ -161,8 +178,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_F17:
           if ((get_mods() & MOD_MASK_CSA) && record->event.pressed) {
             layer_move(_MEMES);
-            // rgblight_sethsv(MEMES_COLOUR, DEFAULT_SAT, val);
             rgblight_mode(RGBLIGHT_MODE_RAINBOW_SWIRL);
+            return false;
+          }
+          return true;
+          break;
+        case KC_F18:
+          if ((get_mods() & MOD_MASK_CSA) && record->event.pressed) {
+            layer_move(_VC);
+            rgblight_sethsv(VC_COLOUR, DEFAULT_SAT, val);
             return false;
           }
           return true;
@@ -194,8 +218,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_P5:
           if ((get_mods() & MOD_MASK_CSA) && record->event.pressed) {
             layer_move(_MEMES);
-            // rgblight_sethsv(MEMES_COLOUR, DEFAULT_SAT, val);
             rgblight_mode(RGBLIGHT_MODE_RAINBOW_SWIRL);
+            return false;
+          }
+          return true;
+          break;
+        case KC_P6:
+          if ((get_mods() & MOD_MASK_CSA) && record->event.pressed) {
+            layer_move(_VC);
+            rgblight_sethsv(VC_COLOUR, DEFAULT_SAT, val);
             return false;
           }
           return true;
@@ -216,7 +247,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           }
           return true;
           break;
-        case KC_COMM:
+        case KC_M:
           if ((get_mods() & MOD_MASK_CSA) && record->event.pressed) {
             layer_move(_ARROWS);
             rgblight_sethsv(ARROWS_COLOUR, DEFAULT_SAT, val);
@@ -224,11 +255,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           }
           return true;
           break;
-        case KC_C:
+        case KC_S:
           if ((get_mods() & MOD_MASK_CSA) && record->event.pressed) {
             layer_move(_MEMES);
-            // rgblight_sethsv(MEMES_COLOUR, DEFAULT_SAT, val);
             rgblight_mode(RGBLIGHT_MODE_RAINBOW_SWIRL);
+            return false;
+          }
+          return true;
+          break;
+        case KC_R:
+          if ((get_mods() & MOD_MASK_CSA) && record->event.pressed) {
+            layer_move(_VC);
+            rgblight_sethsv(VC_COLOUR, DEFAULT_SAT, val);
             return false;
           }
           return true;
@@ -257,6 +295,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           }
           return true;
           break;
+        case KC_RIGHT:
+          if ((get_mods() & MOD_MASK_CSA) && record->event.pressed) {
+            layer_move(_VC);
+            rgblight_sethsv(VC_COLOUR, DEFAULT_SAT, val);
+            return false;
+          }
+          return true;
+          break;
     }
     return true;
 }
@@ -281,8 +327,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                         KC_MEH,
         KC_NO,          KC_NO,          KC_NO,
      // mono toggle     input toggle
-        KC_F16,         KC_F17,         KC_NO,
-     //                 vc mute
+        KC_F16,         KC_F17,         KC_F18,
         KC_QUAK,        VC_MUTE,        VC_VIDM
     ),
     [_KEYPAD] = LAYOUT(
@@ -295,8 +340,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_LOGIC] = LAYOUT(
                         RGB_TOG,
                                         KC_MEH,
-        KC_M,           KC_S,           KC_E,
         KC_COMMA,       KC_C,           KC_DOT,
+        KC_M,           KC_S,           KC_R,
         KC_SPC,         KC_ENT,         KC_DEL
     ),
     [_ARROWS] = LAYOUT(
@@ -314,11 +359,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ANGRY,          FIGHT,          STALK,
         SHRUG,          FLIP,           ACID
     ),
+    [_VC] = LAYOUT(
+                        RGB_TOG,
+                                        KC_MEH,
+        KC_NO,          KC_NO,          KC_NO,
+     // mono toggle     input toggle
+        KC_F16,         KC_F17,         KC_NO,
+        KC_QUAK,        VC_MUTE,        VC_VIDM
+    ),
 };
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
     switch (biton32(layer_state)) {
-        case 0:
+        case _BASE:
             if (get_mods() & MOD_MASK_CSA) {
               uint8_t mod_state = get_mods();
               del_mods(mod_state);
@@ -339,6 +392,24 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                   tap_code(KC_Z);
                   unregister_code(KC_LSFT);
                   unregister_code(KC_LGUI);
+              }
+              break;
+            }
+        case _VC:
+            if (get_mods() & MOD_MASK_CSA) {
+              uint8_t mod_state = get_mods();
+              del_mods(mod_state);
+              if (clockwise) {
+                rgblight_decrease_val();
+              } else {
+                rgblight_increase_val();
+              }
+              set_mods(mod_state);
+            } else {
+              if (clockwise) {
+                  tap_code(KC_VOLD);
+              } else {
+                  tap_code(KC_VOLU);
               }
               break;
             }
