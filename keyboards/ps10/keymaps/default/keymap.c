@@ -37,13 +37,13 @@ enum custom_keycodes {
 };
 
 int DEFAULT_SAT = 0xFF;
-int DEFAULT_VAL = 0x20;
+int DEFAULT_VAL = 0x40;
 
 int BASE_COLOUR = 0;
 int KEYPAD_COLOUR = 180;
 int LOGIC_COLOUR = 127;
 int ARROWS_COLOUR = 64;
-int VC_COLOUR = 10;
+int VC_COLOUR = 20;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     int val = rgblight_get_val();

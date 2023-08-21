@@ -2,10 +2,11 @@
 
 #define _QWERTY 0
 #define _QWERTY_PC 1
-#define _FN_NAV 2
-#define _SYM 3
-#define _MOUSE_MEDIA 4
-#define _NUM_KEY 5
+#define _GAME 2
+#define _FN_NAV 3
+#define _SYM 4
+#define _MOUSE_MEDIA 5
+#define _NUM_KEY 6
 
 #define KC_SYUP LT(_SYM, KC_PGUP)
 #define KC_FNDN LT(_FN_NAV, KC_PGDN)
@@ -19,6 +20,7 @@
 #define KC_CANO LCA_T(KC_NO)
 #define KC_CSES C_S_T(KC_ESC)
 #define KC_TQPC TG(_QWERTY_PC)
+#define KC_TGAM TG(_GAME)
 #define KC_TFNN TG(_FN_NAV)
 #define KC_TSYM TG(_SYM)
 #define KC_TMM  TG(_MOUSE_MEDIA)
@@ -61,6 +63,9 @@ const rgblight_segment_t PROGMEM qwerty_pc_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 const rgblight_segment_t PROGMEM capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, RGBLED_NUM, HSV_RED}
 );
+const rgblight_segment_t PROGMEM game_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, RGBLED_NUM, HSV_ORANGE}
+);
 const rgblight_segment_t PROGMEM fn_nav_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, RGBLED_NUM, HSV_MAGENTA}
 );
@@ -100,7 +105,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      KC_MM   ,KC_NCAP ,KC_CANO ,KC_LGUI ,     KC_LALT ,    KC_BSPC ,KC_CSES ,        KC_ENT  ,KC_SPC  ,    KC_RALT ,     KC_RGUI ,KC_CANO ,KC_CANO ,KC_FF
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
-   ),
+    ),
+    [_GAME] = LAYOUT(
+  //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
+     KC_GRV  ,KC_1    ,KC_2    ,KC_3    ,KC_4    ,KC_5    ,                                            KC_6    ,KC_7    ,KC_8    ,KC_9    ,KC_0    ,KC_MINS ,
+  //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+     KC_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,KC_T    ,KC_LPPL ,                          KC_RPEQ ,KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_BSLS ,
+  //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+     KC_LCTL ,KC_A    ,KC_S    ,KC_D    ,KC_F    ,KC_G    ,KC_TDLB ,                          KC_TDRB ,KC_H    ,KC_J    ,KC_K    ,KC_L    ,KC_SCLN ,KC_QUOT ,
+  //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+     KC_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,KC_SYUP ,KC_FNDN ,        KC_FNHM ,KC_SEND ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_RSFT ,
+  //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
+     KC_ESC  ,KC_BSPC ,KC_CANO ,KC_LGUI ,     KC_LALT ,    KC_SPC  ,KC_ENT  ,        KC_ENT  ,KC_SPC  ,    KC_RALT ,     KC_RGUI ,KC_CANO ,KC_CANO ,KC_FF
+  //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
+    ),
     [_FN_NAV] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_NO   ,KC_F1   ,KC_F2   ,KC_F3   ,KC_F4   ,KC_F5   ,                                            KC_F6   ,KC_F7   ,KC_F8   ,KC_F9   ,KC_F10  ,KC_NO   ,
@@ -116,7 +134,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_SYM] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_NO   ,KC_TQPC ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,                                            KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
+     KC_NO   ,KC_TQPC ,KC_TGAM ,KC_NO   ,KC_NO   ,KC_NO   ,                                            KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_PGDN ,KC_NO   ,                          KC_NO   ,KC_PGUP ,KC_MTL  ,KC_MTR  ,KC_NO   ,KC_NO   ,KC_NO   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -159,10 +177,11 @@ const rgblight_segment_t* const PROGMEM rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     qwerty_layer,
     qwerty_pc_layer,
     capslock_layer,
+    game_layer,
     fn_nav_layer,
     sym_layer,
     mouse_media_layer,
-    num_key_layer
+    num_key_layer,
 );
 
 void keyboard_post_init_user(void) {
@@ -181,9 +200,10 @@ layer_state_t default_layer_state_set_user(layer_state_t state) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(1, layer_state_cmp(state, _QWERTY_PC));
-    rgblight_set_layer_state(3, layer_state_cmp(state, _FN_NAV));
-    rgblight_set_layer_state(4, layer_state_cmp(state, _SYM));
-    rgblight_set_layer_state(5, layer_state_cmp(state, _MOUSE_MEDIA));
-    rgblight_set_layer_state(6, layer_state_cmp(state, _NUM_KEY));
+    rgblight_set_layer_state(3, layer_state_cmp(state, _GAME));
+    rgblight_set_layer_state(4, layer_state_cmp(state, _FN_NAV));
+    rgblight_set_layer_state(5, layer_state_cmp(state, _SYM));
+    rgblight_set_layer_state(6, layer_state_cmp(state, _MOUSE_MEDIA));
+    rgblight_set_layer_state(7, layer_state_cmp(state, _NUM_KEY));
     return state;
 }
